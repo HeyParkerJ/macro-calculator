@@ -12,14 +12,7 @@ func roundToTwoSigFigs(i float64) float64 {
 	return math.Round(i*100) / 100
 }
 
-func main() {
-	/*
-		Until flags are implemented - you need to run program with args in location:
-		1: Bodyweight
-		2: Height (inches)
-		3. Age
-		4. Activity level (1-5)
-	*/
+func convertArgsToVars() (float64, float64, float64, float64) {
 	var err error
 	var bodyweight float64
 	var heightInInches float64
@@ -59,6 +52,28 @@ func main() {
 			fmt.Println("Error", err)
 		}
 	}
+	return bodyweight, heightInInches, age, activityModifier
+}
+
+func printOutput(TDEE float64, proteinIntake float64, calFromProtein float64, carbIntake float64, calFromCarb float64, fatIntake float64, calFromFat float64) {
+	fmt.Println("Daily intake")
+	fmt.Println("---")
+	fmt.Println("TDEE:", TDEE, "cal/day")
+	fmt.Println("Protein:", proteinIntake, "g,", calFromProtein, "cal")
+	fmt.Println("Carbs:", carbIntake, "g,", calFromCarb, "cal")
+	fmt.Println("Fat:", fatIntake, "g,", calFromFat, "cal")
+}
+
+func main() {
+	/*
+		Until flags are implemented - you need to run program with args in location:
+		1: Bodyweight
+		2: Height (inches)
+		3. Age
+		4. Activity level (1-5)
+	*/
+	var bodyweight, heightInInches, age, activityModifier = convertArgsToVars()
+
 	var weightInKg = bodyweight / 2.2
 	var heightInCm = heightInInches * 2.54
 
@@ -81,10 +96,5 @@ func main() {
 	var calFromCarb = roundToTwoSigFigs((TDEE - (calFromProtein + calFromFat)))
 	var carbIntake = calFromCarb / 4
 
-	fmt.Println("Daily intake")
-	fmt.Println("---")
-	fmt.Println("TDEE:", TDEE, "cal/day")
-	fmt.Println("Protein:", proteinIntake, "g,", calFromProtein, "cal")
-	fmt.Println("Carbs:", carbIntake, "g,", calFromCarb, "cal")
-	fmt.Println("Fat:", fatIntake, "g,", calFromFat, "cal")
+	printOutput(TDEE, proteinIntake, calFromProtein, carbIntake, calFromCarb, fatIntake, calFromFat)
 }
