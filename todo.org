@@ -1,0 +1,1 @@
+* TODO Casting everything to float64 to placate a few calculations seems cumbersome... there must be a better way
